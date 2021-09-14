@@ -460,7 +460,7 @@ ex. track name, artist</property>
                                 <property name="can-focus">False</property>
                                 <property name="halign">start</property>
                                 <property name="valign">center</property>
-                                <property name="label" translatable="yes">What's new in v15?</property>
+                                <property name="label" translatable="yes">What's new in v17?</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                   <attribute name="scale" value="1.25"/>
@@ -612,8 +612,10 @@ ex. track name, artist</property>
                     <property name="halign">start</property>
                     <property name="margin-top">8</property>
                     <property name="margin-bottom">8</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Seperator characters&lt;/b&gt;</property>
-                    <property name="use-markup">True</property>
+                    <property name="label" translatable="yes">Seperator characters</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
@@ -856,8 +858,10 @@ ex. track name, artist</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Show/hide elements&lt;/b&gt;</property>
-                    <property name="use-markup">True</property>
+                    <property name="label" translatable="yes">how/hide elements</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
@@ -967,8 +971,10 @@ ex. track name, artist</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Element order&lt;/b&gt;</property>
-                    <property name="use-markup">True</property>
+                    <property name="label" translatable="yes">Element order</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
@@ -1055,8 +1061,10 @@ ex. track name, artist</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="halign">start</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Mouse actions&lt;/b&gt;</property>
-                    <property name="use-markup">True</property>
+                    <property name="label" translatable="yes">Mouse actions</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
@@ -1069,8 +1077,10 @@ ex. track name, artist</property>
                     <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="valign">center</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Cache images&lt;/b&gt;</property>
-                    <property name="use-markup">True</property>
+                    <property name="label" translatable="yes">Cache images</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
@@ -1178,6 +1188,9 @@ ex. track name, artist</property>
                     <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Blacklist players</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="left-attach">0</property>
@@ -1198,6 +1211,8 @@ ex. track name, artist</property>
                   <object class="GtkEntry" id="backlist-entry">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
+                    <property name="secondary-icon-name">list-add</property>
+                    <property name="input-hints">GTK_INPUT_HINT_LOWERCASE | GTK_INPUT_HINT_NONE</property>
                     <signal name="activate" handler="on_backlist_entry_changed" swapped="no"/>
                   </object>
                   <packing>

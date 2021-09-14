@@ -25,6 +25,7 @@ class Settings {
         this.elementOrder = this._settings.get_strv("element-order");
         this.trackLabel = this._settings.get_strv("track-label");
         this.cacheImages = this._settings.get_boolean("cache-images");
+        this.blacklistApps = this._settings.get_strv("backlist-apps");
     }
 
     connectSignals() {
@@ -124,6 +125,10 @@ class Settings {
         this._onCacheImagesChanged = this._settings.connect("changed::cache-images", () => {
             this.cacheImages = this._settings.get_boolean("cache-images");
         });
+
+        this._onBacklistAppsChanged = this._settings.connect("changed::backlist-apps", () => {
+            this.blacklistApps = this._settings.get_strv("backlist-apps");
+        });
     }
 
     disconnectSignals() {
@@ -145,5 +150,6 @@ class Settings {
         this._settings.disconnect(this._onElementOrderChanged);
         this._settings.disconnect(this._onTrackLabelChanged);
         this._settings.disconnect(this._onCacheImagesChanged);
+        this._settings.disconnect(this._onBacklistAppsChanged);
     }
 }

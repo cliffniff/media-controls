@@ -599,11 +599,11 @@ const Player = GObject.registerClass(
                 }
             } catch (error) {
                 if (
-                    error.toString().includes("Expected type") ||
-                    error.toString().includes("Error opening file")
+                    !(
+                        error.toString().includes("Expected type") ||
+                        error.toString().includes("Error opening file")
+                    )
                 ) {
-                    log("[MediaControls] Failed to retrieve icon.");
-                } else {
                     logError(error);
                 }
                 return null;
@@ -697,6 +697,9 @@ const Player = GObject.registerClass(
         }
 
         destroy() {
+            this._extension = null;
+            this._playerProxy = null;
+            this._otherProxy = null;
             super.destroy();
         }
 

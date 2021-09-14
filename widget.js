@@ -1,4 +1,7 @@
-// TODO FEATURES: title/artist order/hide
+/**
+ * Main entry point of the extension
+ * Contains the main class of the extension
+ */
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
@@ -57,17 +60,6 @@ const MediaControls = GObject.registerClass(
                 this.updatePlayer();
             });
 
-            // this._automaticUpdateToggle.connect("toggled", (widget, value) => {
-            //     if (value) {
-            //         this._isFixedPlayer = true;
-            //         this.updatePlayer(this.player);
-            //     } else {
-            //         this._isFixedPlayer = false;
-            //         this.updatePlayer();
-            //     }
-            //     log(this._isFixedPlayer);
-            // });
-
             this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
             this.menu.addMenuItem(this._automaticUpdateToggle);
 
@@ -111,8 +103,6 @@ const MediaControls = GObject.registerClass(
                             })();
                         }
                     });
-
-                    log("[MediaControls] Enabled");
                 } catch (error) {
                     logError(error);
                 }
@@ -131,8 +121,6 @@ const MediaControls = GObject.registerClass(
         }
 
         addWidgets() {
-            log("[MediaControls] Adding widgets");
-
             delete Main.panel.statusArea["media_controls_extension"];
             Main.panel.addToStatusArea(
                 "media_controls_extension",
@@ -173,7 +161,6 @@ const MediaControls = GObject.registerClass(
         }
 
         removeWidgets() {
-            log("[MediaControls] Removing widgets");
             delete Main.panel.statusArea["media_controls_extension"];
 
             if (this.player) {
@@ -202,17 +189,26 @@ const MediaControls = GObject.registerClass(
         async _addPlayer(busName) {
             try {
                 let playerObj = await new Player(busName, this);
-                let menuItem = playerObj.menuItem;
+                if (
+                    this.settings.blacklistApps.every(
+                        (app) => !playerObj.name.toLowerCase().includes(app.toLowerCase())
+                    )
+                ) {
+                    let menuItem = playerObj.menuItem;
 
-                menuItem.connect("activate", (menuItem) => {
-                    this.toggleActivatePlayer(menuItem.busName);
-                });
+                    menuItem.connect("activate", (menuItem) => {
+                        this.toggleActivatePlayer(menuItem.busName);
+                    });
 
-                this.menu.addMenuItem(menuItem);
-                this._players[busName] = playerObj;
+                    this.menu.addMenuItem(menuItem);
+                    this._players[busName] = playerObj;
 
-                if (!playerObj._metadata["title"]) {
-                    this.hidePlayer(busName);
+                    if (!playerObj._metadata["title"]) {
+                        this.hidePlayer(busName);
+                    }
+                } else {
+                    playerObj.destroy();
+                    playerObj = null;
                 }
             } catch (error) {
                 logError(error);
@@ -232,18 +228,20 @@ const MediaControls = GObject.registerClass(
             delete this._players[busName];
         }
 
+        /**
+         * Determines the currently selected player
+         * @param {null || Player || string} player
+         */
         updatePlayer(player = null) {
             if (!this.player && this.isFixedPlayer) {
                 this.isFixedPlayer = false;
             }
 
             if (!player && !this.isFixedPlayer) {
-                log("Automatic determine");
                 const validPlayers = [];
                 for (let playerName in this._players) {
                     let playerObj = this._players[playerName];
                     if (playerObj._metadata["title"] && !playerObj.hidden) {
-                        log(playerObj.busName, playerObj._status);
                         validPlayers.push(playerObj);
                         if (playerObj.isPlaying) {
                             player = playerObj;
@@ -286,13 +284,8 @@ const MediaControls = GObject.registerClass(
 
                 this.player.active = true;
             } else if (!this.player) {
-                log("Removing all");
                 this.removeWidgets();
             }
-
-            log("[MediaControls] Updated player", player ? player.busName : player);
-            log("No. of players", Object.values(this._players).length);
-            log("Fixed player", this.isFixedPlayer);
         }
 
         toggleActivatePlayer(busName) {
@@ -341,9 +334,6 @@ const MediaControls = GObject.registerClass(
         }
 
         playerVanished(connection, name) {
-            log("Player Vanished", name);
-            log("No. of players", Object.values(this._players).length);
-
             if (name === this.player.busName) {
                 Gio.bus_unwatch_name(this.playerWatchId);
                 this._removePlayer(this.player.busName);
@@ -354,7 +344,6 @@ const MediaControls = GObject.registerClass(
             } else {
                 this._removePlayer(name);
             }
-            log("No. of players", Object.values(this._players).length);
         }
 
         destroy() {

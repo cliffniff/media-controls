@@ -1,5 +1,4 @@
 {
-  "development": true,
   "description": "Show controls for the current playing media in the panel",
   "name": "Media Controls",
   "settings-schema": "org.gnome.shell.extensions.mediacontrols",
@@ -9,5 +8,5 @@
   ],
   "url": "https://github.com/cliffniff/media-controls",
   "uuid": "mediacontrols@cliffniff.github.com",
-  "version": 16
+  "version": 17
 }

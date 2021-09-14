@@ -451,8 +451,12 @@ const addToBacklistListBox = (app) => {
     );
 
     deleteButton.visible = true;
+    deleteButton.app = app;
 
     deleteButton.connect("clicked", (widget) => {
+        let currentBacklistApps = settings.get_strv("backlist-apps");
+        currentBacklistApps.splice(currentBacklistApps.indexOf(widget.app), 1);
+        settings.set_strv("backlist-apps", currentBacklistApps);
         widgetBacklistBox.remove(widget.get_parent().get_parent());
     });
 
