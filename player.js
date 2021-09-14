@@ -106,7 +106,7 @@ const Player = GObject.registerClass(
 
             this.containerButtonLabel = new St.Button({
                 style_class: "panel-button",
-                style: "padding: 0px 5px",
+                style: "padding: 0px 5px;",
             });
 
             this.containerButtonLabel.connect("button-release-event", this._mouseActionButton.bind(this));
@@ -195,7 +195,9 @@ const Player = GObject.registerClass(
                 this._extension.menu.toggle();
             });
 
-            this.dummyContainer = new St.BoxLayout();
+            this.dummyContainer = new St.BoxLayout({
+                style: "padding-top: 0; padding-bottom: 0;",
+            });
 
             // this.dummyContainer.add_child(this.buttonPlayer);
             // this.dummyContainer.add_child(this.containerButtonLabel);
